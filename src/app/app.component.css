@@ -1,0 +1,52 @@
+body {
+    background-color: rgba(0,0,0,.4);
+    background-image: none;
+}
+
+.homepage-body {
+    height: calc(100vh - 0px);
+    width: 100%;
+    background-color: rgba(0,0,0,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.centre-text {
+    font-weight: 700;
+    font-size: 100px;
+    text-align: center;
+}
+
+:host ::ng-deep .getting-started-btn .p-button,
+:host ::ng-deep .getting-started-btn .p-button:hover {
+    --primary-color: #fd267a; 
+    --secondary-color: #ff6036; 
+    --shadow-color: rgba(255, 255, 255, 0.5); 
+    --transition-duration: 0.3s; 
+    --button-border-radius: 25px; 
+    --button-padding: 10px 20px; 
+    --button-font-size: 16px; 
+    --button-cursor: pointer; 
+
+    background-color: var(--primary-color); 
+    color: white; 
+    border: none; 
+    padding: var(--button-padding); 
+    border-radius: var(--button-border-radius); 
+    font-size: var(--button-font-size); 
+    cursor: var(--button-cursor); 
+    font-weight: 600;
+    transition:  
+        background-color var(--transition-duration) ease-in-out; 
+    background-image:  
+        linear-gradient(to right, var(--primary-color),  
+                                    var(--secondary-color)); 
+    box-shadow: 0px 2px 10px var(--shadow-color); 
+}
+
+:host ::ng-deep .getting-started-btn .p-button:hover {
+    border: none;
+}
