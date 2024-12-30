@@ -2,7 +2,6 @@
 @import "primeicons/primeicons.css";
 
 body{
-    background: url('../assets/background.png');
     margin: 0;
     font-family: "Montserrat", serif;
     font-optical-sizing: auto;

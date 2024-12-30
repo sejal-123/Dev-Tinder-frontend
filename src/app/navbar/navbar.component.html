@@ -1,9 +1,11 @@
 <div class="card">
-    <div class="navbar">
-        <div class="tinder-home">
-            <img class="tinder-image" src="assets/images/tinder-icon.png" height="48" width="48" alt="icon">
-            <div class="tinder-text">Dev-Tinder</div>
-        </div>
+    <nav class="navbar">
+        <a routerLink="/home">
+            <div class="tinder-home">
+                <img class="tinder-image" src="assets/images/tinder-icon.png" height="48" width="48" alt="icon">
+                <div class="tinder-text">Dev-Tinder</div>
+            </div>
+        </a>
         <div class="navbar-left">
             <div>Products</div>
             <div>Learn</div>
@@ -12,8 +14,12 @@
             <div>Download</div>
         </div>
         <div class="navbar-right">
-            <div>Language</div>
-            <div>Log in</div>
+            <div class="language">
+                <p-button rounded="true" icon="pi pi-language" label="Language"></p-button>
+            </div>
+            <div class="login">
+                <p-button rounded="true" label="Log in"></p-button>
+            </div>
         </div>
-    </div>
+    </nav>
 </div>

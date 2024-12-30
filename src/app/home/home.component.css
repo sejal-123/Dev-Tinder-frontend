@@ -1,0 +1,112 @@
+body {
+    margin-top: 0px;
+}
+
+.homepage {
+    background-image: url('../../../assets/background.png');
+}
+
+.navbar {
+    height: 80px;
+    opacity: 1;
+}
+
+.homepage-body {
+    height: calc(100vh - 80px);
+    background-color: rgba(0,0,0,.4);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.centre-text {
+    font-weight: 700;
+    font-size: 100px;
+    text-align: center;
+    opacity: 1;
+}
+
+:host ::ng-deep .getting-started-btn .p-button,
+:host ::ng-deep .getting-started-btn .p-button:hover {
+    --primary-color: #fd267a; 
+    --secondary-color: #ff6036; 
+    --shadow-color: rgba(255, 255, 255, 0.5); 
+    --transition-duration: 0.3s; 
+    --button-border-radius: 25px; 
+    --button-padding: 10px 20px; 
+    --button-font-size: 16px; 
+    --button-cursor: pointer; 
+
+    background-color: var(--primary-color); 
+    color: white; 
+    border: none; 
+    padding: var(--button-padding); 
+    border-radius: var(--button-border-radius); 
+    font-size: var(--button-font-size); 
+    cursor: var(--button-cursor); 
+    font-weight: 600;
+    transition:  
+        background-color var(--transition-duration) ease-in-out; 
+    background-image:  
+        linear-gradient(to right, var(--primary-color),  
+                                    var(--secondary-color)); 
+    box-shadow: 0px 2px 10px var(--shadow-color); 
+}
+
+:host ::ng-deep .getting-started-btn .p-button:hover {
+    border: none;
+}
+
+:host ::ng-deep .p-dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+:host ::ng-deep .p-dialog-title {
+    color :#fd267a;
+    font-size: 30px;
+}
+
+:host ::ng-deep .p-dialog .google-signup .p-button,
+:host ::ng-deep .p-dialog .manual-signup .p-button {
+    margin: 8px;
+    width: 100%;
+}
+
+.disclamier {
+    text-align: center;
+    font-size: 13px;
+}
+
+.field {
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.field .left {
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.field .right {
+    flex: 1;
+    justify-content: flex-end;
+}
+
+:host ::ng-deep .field .p-radiobutton {
+    margin: 0 4px;
+}
+
+.error {
+    color: red;
+}
+
+:host ::ng-deep .p-inputtext.ng-touched.ng-invalid {
+    border-color: var(--p-inputtext-invalid-border-color);
+}

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
+import { Route, Router } from '@angular/router';
 
 
 @Component({

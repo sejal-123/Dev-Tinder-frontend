@@ -1,0 +1,9 @@
+body {
+    padding-top: 80px;
+    background-image: none;
+    height: calc(100vh - 0);
+}
+
+.signup-body {
+    padding-top: 80px;
+}
