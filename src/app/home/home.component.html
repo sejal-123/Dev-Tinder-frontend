@@ -1,6 +1,6 @@
 
 <div class="navbar">
-    <app-navbar></app-navbar>
+    <app-navbar (loginDialogEmitter)="toggleLoginDialog($event)"></app-navbar>
 </div>
 <div class="homepage">
     <div class="homepage-body">
@@ -21,65 +21,97 @@
     <p-button label="Continue with google" severity="info" rounded="true" (click)="visible = false" />
 </div>
 <div class="manual-signup">
-    <p-button label="Enter details manually" (onClick)="showHideDetailsDialog()" severity="secondary" rounded="true" (click)="visible = false" />
+    <p-button label="Enter details manually" (onClick)="toggleSignupDialog()" severity="secondary" rounded="true" (click)="visible = false" />
 </div>
 </p-dialog>
 
-<p-dialog header="Enter details" [modal]="true" [(visible)]="detailsDialog" [style]="{ width: '30rem' }">
-<form (ngSubmit)="onFormSubmit()" #registrationForm="ngForm">
-    <div class="field">
-        <label class="left">Firstname </label>
-        <div class="right">
-            <input type="text" pInputText ngModel name="firstName" required />
-            <span class="error" *ngIf="registrationForm.controls['firstName'].touched && registrationForm.controls['firstName'].invalid">Invalid firstname</span>
+<p-dialog header="Enter details..." [modal]="true" [(visible)]="signUpDetailsDialog" [style]="{ width: '30rem' }">
+    <form (ngSubmit)="onSignUpFormSubmit()" #registrationForm="ngForm">
+        <div class="field">
+            <label class="left">Firstname </label>
+            <div class="right">
+                <input type="text" pInputText ngModel name="firstName" required />
+                <span class="error" *ngIf="registrationForm.controls['firstName'].touched && registrationForm.controls['firstName'].invalid">Invalid firstname</span>
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <label class="left">Lastname </label>
-        <div class="right">
-            <input type="text" pInputText ngModel required name="lastName" />
-            <span class="error" *ngIf="registrationForm.controls['lastName'].touched && registrationForm.controls['lastName'].invalid">Invalid lastname</span>
+        <div class="field">
+            <label class="left">Lastname </label>
+            <div class="right">
+                <input type="text" pInputText ngModel required name="lastName" />
+                <span class="error" *ngIf="registrationForm.controls['lastName'].touched && registrationForm.controls['lastName'].invalid">Invalid lastname</span>
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <label class="left">Age </label>
-        <div class="right">
-            <p-inputnumber ngModel inputId="minmax" mode="decimal" [min]="18" showButtons="true"  name="age"/>
-            <span class="error" *ngIf="registrationForm.controls['age'].touched && registrationForm.controls['age'].invalid">Age should be above 18</span>
+        <div class="field">
+            <label class="left">Age </label>
+            <div class="right">
+                <p-inputnumber ngModel inputId="minmax" mode="decimal" [min]="18" showButtons="true"  name="age"/>
+                <span class="error" *ngIf="registrationForm.controls['age'].touched && registrationForm.controls['age'].invalid">Age should be above 18</span>
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <label class="left">Gender </label>
-        <div *ngFor="let gender of genders">
-            <p-radiobutton name="gender" [value]="gender.label" [(ngModel)]="selectedGender" [inputId]="gender.value" />
-            <label for="male">{{gender.label}}</label>
+        <div class="field">
+            <label class="left">Gender </label>
+            <div *ngFor="let gender of genders">
+                <p-radiobutton name="gender" [value]="gender.label" [(ngModel)]="selectedGender" [inputId]="gender.value" />
+                <label for="male">{{gender.label}}</label>
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <label class="left">Email </label>
-        <div class="right">
-            <input type="email" pInputText ngModel name="emailId" required />
-            <span class="error" *ngIf="registrationForm.controls['emailId'].touched && registrationForm.controls['emailId'].invalid && registrationForm.value['emailId'] === ''">Email cannot be empty</span>
-            <span class="error" *ngIf="registrationForm.controls['emailId'].touched && registrationForm.controls['emailId'].invalid  && registrationForm.value['emailId'] !== ''">Invalid email</span>
+        <div class="field">
+            <label class="left">Email </label>
+            <div class="right">
+                <input type="email" pInputText ngModel name="emailId" required />
+                <span class="error" *ngIf="registrationForm.controls['emailId'].touched && registrationForm.controls['emailId'].invalid && registrationForm.value['emailId'] === ''">Email cannot be empty</span>
+                <span class="error" *ngIf="registrationForm.controls['emailId'].touched && registrationForm.controls['emailId'].invalid  && registrationForm.value['emailId'] !== ''">Invalid email</span>
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <label class="left">Password </label>
-        <div class="right">
-            <input type="password" pInputText ngModel name="password" required/>
-            <span class="error" *ngIf="registrationForm.controls['password'].touched && registrationForm.controls['password'].invalid">Invalid password</span>
+        <div class="field">
+            <label class="left">Password </label>
+            <div class="right">
+                <input type="password" pInputText ngModel name="password" required/>
+                <span class="error" *ngIf="registrationForm.controls['password'].touched && registrationForm.controls['password'].invalid">Invalid password</span>
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <label class="left">Confirm password </label>
-        <div class="right">
-            <input class="right" type="password" pInputText ngModel name="confirmPassword" required />
-            <span class="error" *ngIf="registrationForm.controls['confirmPassword'].touched && registrationForm.controls['confirmPassword'].invalid">Invalid re-typed password</span>
-            <span class="error" *ngIf="registrationForm.controls['confirmPassword'].touched && registrationForm.value['password'] !== registrationForm.value['confirmPassword']">Password matching failed</span>
+        <div class="field">
+            <label class="left">Confirm password </label>
+            <div class="right">
+                <input class="right" type="password" pInputText ngModel name="confirmPassword" required />
+                <span class="error" *ngIf="registrationForm.controls['confirmPassword'].touched && registrationForm.controls['confirmPassword'].invalid">Invalid re-typed password</span>
+                <span class="error" *ngIf="registrationForm.controls['confirmPassword'].touched && registrationForm.value['password'] !== registrationForm.value['confirmPassword']">Password matching failed</span>
+            </div>
         </div>
+        <div class="field">
+            <p-button type="submit" label="Sign up" severity="success" rounded="true"></p-button>
+        </div>
+    </form>
+    <div class="login-btn">
+        Existing user?.. 
+        <p-button label="Login" [link]="true" rounded="true" (onClick)="toggleLoginDialog()"></p-button>
     </div>
-    <div class="field">
-        <p-button type="submit" label="Sign up" severity="success" rounded="true"></p-button>
-    </div>        
-</form>
+</p-dialog>
+
+<p-dialog header="Enter details..." [modal]="true" [(visible)]="loginDetailsDialog" [style]="{ width: '30rem' }">
+    <form (ngSubmit)="onLoginFormSubmit()" #loginForm="ngForm">
+        <div class="field">
+            <label class="left">Email </label>
+            <div class="right">
+                <input type="email" pInputText ngModel name="emailId" required />
+                <span class="error" *ngIf="loginForm.controls['emailId'].touched && loginForm.controls['emailId'].invalid  && loginForm.value['emailId']">Invalid email</span>
+                <span class="error" *ngIf="loginForm.controls['emailId'].touched && loginForm.controls['emailId'].invalid && !loginForm.value['emailId']">Please enter email</span>
+            </div>
+        </div>
+        <div class="field">
+            <label class="left">Password </label>
+            <div class="right">
+                <input type="password" pInputText ngModel name="password" required />
+                <span class="error" *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid && loginForm.value['password']">Invalid password</span>
+                <span class="error" *ngIf="loginForm.controls['password'].touched && loginForm.controls['password'].invalid && !loginForm.value['password']">Please enter password</span>
+            </div>
+        </div>
+        <div class="field">
+            <p-button type="submit" label="Login" severity="success" rounded="true"></p-button>
+        </div>
+    </form>
+    <div class="login-btn">
+        New user?..
+        <p-button label="Sign up" [link]="true" rounded="true" (onClick)="toggleSignupDialog()"></p-button>
+    </div>
 </p-dialog>

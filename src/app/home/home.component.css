@@ -110,3 +110,9 @@ body {
 :host ::ng-deep .p-inputtext.ng-touched.ng-invalid {
     border-color: var(--p-inputtext-invalid-border-color);
 }
+
+.login-btn {
+    text-align: center;
+}
+
+

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,12 @@ import { Route, Router } from '@angular/router';
 })
 export class NavbarComponent {
 
+  @Output() loginDialogEmitter = new EventEmitter<boolean>();
+
     ngOnInit() {
+    }
+
+    login() {
+      this.loginDialogEmitter.emit(true);
     }
 }

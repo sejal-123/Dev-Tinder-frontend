@@ -17,7 +17,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 })
 export class HomeComponent {
   visible: boolean = false;
-  detailsDialog: boolean = false;
+  signUpDetailsDialog: boolean = false;
+  loginDetailsDialog: boolean = false;
   genders: any[] = [
     { label: 'Male', value: 'male' },
     { label: 'Female', value: 'female' },
@@ -25,8 +26,8 @@ export class HomeComponent {
   ];
   selectedGender: string = 'Male';
 
-  @ViewChild('registrationForm') form: NgForm | undefined;
-
+  @ViewChild('registrationForm') signupForm: NgForm | undefined;
+  @ViewChild('loginForm') loginForm: NgForm | undefined;
 
   constructor(readonly router: Router) {}
 
@@ -40,13 +41,29 @@ export class HomeComponent {
     console.log(this.router);
   }
 
-  showHideDetailsDialog() {
-    this.detailsDialog = !this.detailsDialog;
+  toggleSignupDialog() {
+    if (this.loginDetailsDialog) {
+      this.loginDetailsDialog = false;
+    }
+    this.signUpDetailsDialog = !this.signUpDetailsDialog;
   }
 
-  onFormSubmit() {
-    if (this.form?.valid) {
-      console.log('Submitting form...', this.form.value);
+  onSignUpFormSubmit() {
+    if (this.signupForm?.valid) {
+      console.log('Submitting form...', this.signupForm?.value);
+    }
+  }
+
+  toggleLoginDialog(value?: boolean) {
+    if (this.signUpDetailsDialog) {
+      this.signUpDetailsDialog = false;
+    }
+    this.loginDetailsDialog = value === true || value === false ? value : !this.loginDetailsDialog;
+  }
+
+  onLoginFormSubmit() {
+    if (this.loginForm?.valid) {
+      console.log('Submitting login form...', this.loginForm?.value);
     }
   }
 
