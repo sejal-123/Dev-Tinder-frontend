@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
@@ -8,17 +8,20 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
   imports: [ButtonModule, CommonModule, DialogModule, NavbarComponent, FormsModule, InputTextModule, InputNumberModule, RadioButtonModule],
+  providers: [HttpClientModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   visible: boolean = false;
   signUpDetailsDialog: boolean = false;
   loginDetailsDialog: boolean = false;
+  error: string = '';
   genders: any[] = [
     { label: 'Male', value: 'male' },
     { label: 'Female', value: 'female' },
@@ -29,7 +32,16 @@ export class HomeComponent {
   @ViewChild('registrationForm') signupForm: NgForm | undefined;
   @ViewChild('loginForm') loginForm: NgForm | undefined;
 
-  constructor(readonly router: Router) {}
+  constructor(readonly router: Router, private readonly http: HttpClient) {}
+
+  async ngOnInit() {
+    let users = [];
+    this.http.get('http://localhost:7777/user/getAll').subscribe((data) => {
+      console.log(data);
+      users = data['data'];
+      console.log(users);
+    });
+  }
 
   createNewAccount() {
     this.router.navigateByUrl('/signup');
@@ -38,7 +50,6 @@ export class HomeComponent {
 
   showHideDialog() {
     this.visible = !this.visible;
-    console.log(this.router);
   }
 
   toggleSignupDialog() {
@@ -48,10 +59,32 @@ export class HomeComponent {
     this.signUpDetailsDialog = !this.signUpDetailsDialog;
   }
 
-  onSignUpFormSubmit() {
-    if (this.signupForm?.valid) {
-      console.log('Submitting form...', this.signupForm?.value);
+  async onSignUpFormSubmit() {
+    try {
+      if (this.signupForm?.valid) {
+        const ans = this.http.post('http://localhost:7777/signup', {
+          firstName: this.signupForm.value['firstName'],
+          lastName: this.signupForm.value['lastName'],
+          emailId: this.signupForm.value['emailId'],
+          password: this.signupForm.value['password'],
+          age: this.signupForm.value['age'],
+          gender: this.signupForm.value['gender']
+        });
+        ans.subscribe(data => {
+          console.log(data);
+          if(data['status'] === 400) {
+            this.error = data['error'];
+          } else {
+            alert('User added successfully!.. Please login now...')
+          }
+        });
+        console.log('Submitting form...', this.signupForm?.value);
+      }
+    } catch(e) {
+      console.log(e);
+      throw new Error(e);
     }
+    
   }
 
   toggleLoginDialog(value?: boolean) {

@@ -7,10 +7,11 @@ import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from "./home/home.component";
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MenubarModule, ButtonModule, DialogModule, CommonModule, HomeComponent],
+  imports: [RouterOutlet, MenubarModule, ButtonModule, DialogModule, CommonModule, HomeComponent, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
