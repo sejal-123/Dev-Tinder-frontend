@@ -35,12 +35,12 @@ export class HomeComponent implements OnInit {
   constructor(readonly router: Router, private readonly http: HttpClient) {}
 
   async ngOnInit() {
-    let users = [];
-    this.http.get('http://localhost:7777/user/getAll').subscribe((data) => {
-      console.log(data);
-      users = data['data'];
-      console.log(users);
-    });
+    // let users = [];
+    // this.http.get('http://localhost:7777/user/getAll').subscribe((data) => {
+    //   console.log(data);
+    //   users = data['data'];
+    //   console.log(users);
+    // });
   }
 
   createNewAccount() {
@@ -96,6 +96,20 @@ export class HomeComponent implements OnInit {
 
   onLoginFormSubmit() {
     if (this.loginForm?.valid) {
+      this.http.post('http://localhost:7777/login', {
+        emailId: this.loginForm.value['emailId'], 
+        password: this.loginForm.value['password']
+      }).subscribe(data => {
+        console.log(data);
+        if(data['message'] === 'Login successful') {
+          localStorage.setItem('token', data['data'].token);
+          alert('Login successful');
+          this.router.navigateByUrl('/feed');
+        }
+      }, error => {
+        console.log(error);
+        alert('Invalid credentials');
+      });
       console.log('Submitting login form...', this.loginForm?.value);
     }
   }
