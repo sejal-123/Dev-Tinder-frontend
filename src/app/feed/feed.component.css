@@ -13,7 +13,7 @@
 
 .right-feed {
     background-color: rgba(0,0,0,0);
-    flex: 2;
+    flex: 4;
     display: flex;
 }
 
@@ -42,6 +42,21 @@
     width: 100%;
 }
 
+.menu {
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.menu .icon {
+    font-size: 16px;
+    border-radius: 50%;
+    background-color: #111318;
+    padding: 8px;
+}
+
 .profile {
     display: flex;
     flex-direction: row;
@@ -65,4 +80,58 @@
 .user-name {
     font-size: 16px;
     font-weight: 600;
+}
+
+.p-tabpanels, :host ::ng-deep .p-tablist-tab-list {
+    background-color: transparent;
+    text-align: center;
+    background: transparent;
+}
+
+.p-tab-active {
+    color: white;
+    font-weight: 600;
+    border-color: #fd267a;    
+}
+
+.p-tab:not(.p-disabled):focus-visible {
+    outline: #fd267a;
+}
+
+.icon:hover {
+    cursor: pointer;
+    color: #ff6036;
+}
+
+.p-tabpanel {
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-block {
+    height: 170px;
+    width: 117px;
+    --primary-color: #fd267a; 
+    --secondary-color: #ff6036; 
+    --shadow-color: rgba(255, 255, 255, 0.5); 
+    --transition-duration: 0.3s; 
+
+    background-color: var(--primary-color); 
+    transition:  
+        background-color var(--transition-duration) ease-in-out; 
+    background-image:  
+        linear-gradient(to right, var(--primary-color),  
+                                    var(--secondary-color));
+    border-radius: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 10px 10px #11130B;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }

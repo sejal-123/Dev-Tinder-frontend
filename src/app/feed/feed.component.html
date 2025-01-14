@@ -5,12 +5,51 @@
                 <img class="user-profile-img" [src]="activeUser.photoUrl">
                 <span class="user-name">{{activeUser.firstName.toUpperCase()}}</span>
             </div>
+            <div class="menu">
+                <div class="icon">
+                    <i class="pi pi-search" style="font-size: 1.25rem"></i>
+                </div>
+                <div class="icon">
+                    <i class="pi pi-pen-to-square" style="font-size: 1.25rem"></i>
+                </div>
+                <div class="icon">
+                    <i class="pi pi-shield" style="font-size: 1.25rem"></i>
+                </div>
+            </div>
         </div>
         <div class="feed-preferences">
-            
+            <p-tabs value="0">
+                <p-tablist>
+                    <p-tab value="0">Matches</p-tab>
+                    <p-tab value="1">Messages</p-tab>
+                </p-tablist>
+                <p-tabpanels>
+                    <p-tabpanel value="0">
+                        <div class="center" *ngIf="matches && !matches.length">
+                            <div class="empty-block"></div>
+                            <h2>Start Matching</h2>
+                            <p class="m-0">
+                                Matches will appear here once you start to Like people. You can message them directly from here when you’re ready to spark up the conversation.
+                            </p>
+                        </div>
+                        <div class="center" *ngIf="matches && matches.length">
+                            Matches found
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel value="1">
+                        <div class="center">
+                            <div><i class="pi pi-comments" style="font-size: 8rem; color: #fd267a;"></i></div>
+                            <h2>Say Hello</h2>
+                            <p class="m-0">
+                                Looking to strike up a conversation? When you match with others, you can send them a message under “Matches”.
+                            </p>
+                        </div>
+                    </p-tabpanel>
+                </p-tabpanels>
+            </p-tabs>
         </div>
     </div>
     <div class="right-feed">
-        <!-- hoa -->
+        
     </div>
 </div>
