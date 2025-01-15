@@ -98,6 +98,27 @@
     outline: #fd267a;
 }
 
+.heading {
+    font-weight: 600;
+}
+
+.account {
+    padding: 12px;
+    width: 100%;
+}
+
+.account-subsection {
+    border-bottom: 1px solid white;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.account-subsection:hover {
+    color: #ff6036;
+    cursor: pointer;
+}
+
 .icon:hover {
     cursor: pointer;
     color: #ff6036;

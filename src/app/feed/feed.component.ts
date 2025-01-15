@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsModule } from 'primeng/tabs';
+import { ChipModule } from 'primeng/chip';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-feed',
-  imports: [TabsModule, FormsModule, CommonModule],
+  imports: [TabsModule, FormsModule, CommonModule, ChipModule, ButtonModule, DialogModule, InputTextModule],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
@@ -16,6 +20,10 @@ export class FeedComponent implements OnInit {
   userFeeds: any[] = [];
   matches: any[] = [];
   isLoggedIn: boolean = false;
+  toggleAccountDetails: boolean = false;
+  accountDetailsDialog: boolean = false;
+  @ViewChild('updateForm') updateForm: NgForm | undefined;
+  
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -44,6 +52,43 @@ export class FeedComponent implements OnInit {
       console.log('Error', error);
       this.router.navigateByUrl('/')
     });
+  }
+
+  onToggleAccountDetails() {
+    this.toggleAccountDetails = !this.toggleAccountDetails;
+  }
+
+  editAccountInformation() {
+    // this.http.patch('http://localhost:7777/profile/edit', {
+
+    // })
+    console.log('editing account details...');
+    this.toggleAccountDetailsDialog();
+  }
+
+  logout() {
+    this.http.post('http://localhost:7777/logout', {}).subscribe(
+      data => {
+        console.log(data);
+        if(data['message'] === 'Logged out successfully') {
+          localStorage.removeItem('token');
+          alert('Logged out successfully');
+          this.router.navigateByUrl('/');
+        }
+      }, error => {
+        alert('Please login first');
+        console.log('Error', error);
+        this.router.navigateByUrl('/');
+      }
+    )
+  }
+
+  toggleAccountDetailsDialog() {
+    this.accountDetailsDialog = !this.accountDetailsDialog;
+  }
+
+  onUpdateFormSubmit() {
+    console.log(this.updateForm);
   }
 
 }
