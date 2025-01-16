@@ -23,6 +23,7 @@ export class FeedComponent implements OnInit {
   toggleAccountDetails: boolean = false;
   accountDetailsDialog: boolean = false;
   @ViewChild('updateForm') updateForm: NgForm | undefined;
+  skills: any[] = [];
   
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -59,9 +60,20 @@ export class FeedComponent implements OnInit {
   }
 
   editAccountInformation() {
-    // this.http.patch('http://localhost:7777/profile/edit', {
-
-    // })
+    console.log(this.updateForm.value);
+    this.http.patch('http://localhost:7777/profile/edit', {
+      firstName: this.updateForm.value['firstName'],
+      lastName: this.updateForm.value['lastName'],
+      skills: this.updateForm.value['skills'],
+      photoUrl: this.updateForm.value['photoUrl']
+    }).subscribe((data) => {
+      if (data) {
+        alert('updated successfully');
+        console.log(data['data']);
+      }
+    }, error => {
+      console.log(error);
+    });
     console.log('editing account details...');
     this.toggleAccountDetailsDialog();
   }
@@ -89,6 +101,12 @@ export class FeedComponent implements OnInit {
 
   onUpdateFormSubmit() {
     console.log(this.updateForm);
+    this.editAccountInformation();
   }
 
+  async addSkill() {
+    this.skills.push({ label: this.updateForm.value['skills'], name: this.updateForm.value['skills'] });
+    this.updateForm.value['skills'] = this.skills;
+    console.log(this.skills, this.updateForm);
+  }
 }

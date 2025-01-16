@@ -60,7 +60,7 @@
         
     </div>
 </div>
-<!-- <p-dialog header="Update account details..." [modal]="true" [(visible)]="accountDetailsDialog" [style]="{ width: '30rem' }">
+<p-dialog header="Update account details..." [modal]="true" [(visible)]="accountDetailsDialog" [style]="{ width: '30rem' }">
     <form (ngSubmit)="onUpdateFormSubmit()" #updateForm="ngForm">
         <div class="field">
             <label class="left">Firstname </label>
@@ -80,10 +80,9 @@
             <label class="left">Skills </label>
             <div class="right">
                 <div class="show-chips">
-                    <p-chip *ngFor="let skill of updateForm.value['skills']" [label]="skill.name" [removable]="true" />
+                    <p-chip *ngFor="let skill of skills" [label]="skill.name" [removable]="true" />
                 </div>
-                <input type="text" pInputText  /><p-button >Add</p-button>
-                <span class="error" *ngIf="updateForm.controls['skills'].touched && updateForm.controls['skills'].invalid"></span>
+                <input type="text" pInputText ngModel name="skills" ><p-button type="button" (onClick)="addSkill()">Add</p-button>
             </div>
         </div>
         <div class="field">
@@ -97,4 +96,4 @@
             <p-button type="submit" label="Update" severity="success" rounded="true"></p-button>
         </div>
     </form>
-</p-dialog> -->
+</p-dialog>
