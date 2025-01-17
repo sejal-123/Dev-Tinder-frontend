@@ -216,5 +216,5 @@
 .match {
     display: flex;
     align-items: center;
-    gap: 130px;
+    gap: 130px; 
 }
