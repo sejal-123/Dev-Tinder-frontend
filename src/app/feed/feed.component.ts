@@ -19,6 +19,7 @@ export class FeedComponent implements OnInit {
   activeUser: any = {};
   userFeeds: any[] = [];
   matches: any[] = [];
+  requests: any[] = [];
   isLoggedIn: boolean = false;
   toggleAccountDetails: boolean = false;
   accountDetailsDialog: boolean = false;
@@ -48,6 +49,14 @@ export class FeedComponent implements OnInit {
     this.http.get('http://localhost:7777/user/connections').subscribe(data => {
       this.matches = data['data'];
       console.log(this.matches);
+    }, error => {
+      alert('Please login first');
+      console.log('Error', error);
+      this.router.navigateByUrl('/')
+    });
+    this.http.get('http://localhost:7777/user/requests/received').subscribe(data => {
+      this.requests = data['data'];
+      console.log(this.requests);
     }, error => {
       alert('Please login first');
       console.log('Error', error);
@@ -108,5 +117,16 @@ export class FeedComponent implements OnInit {
     this.skills.push({ label: this.updateForm.value['skills'], name: this.updateForm.value['skills'] });
     this.updateForm.value['skills'] = this.skills;
     console.log(this.skills, this.updateForm);
+  }
+
+  requestAction(request, action) {
+    console.log(request, action);
+    const url = 'http://localhost:7777/request/review/';
+    const completeUrl = action ? `${url}accepted/${request._id}` : `${url}rejected/${request._id}`;
+    this.http.post(completeUrl, {}).subscribe(data => {
+      console.log(data);
+    }, error => {
+      console.log(error);
+    });
   }
 }

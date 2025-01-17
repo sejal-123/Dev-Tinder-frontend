@@ -21,7 +21,7 @@
             <p-tabs value="0">
                 <p-tablist>
                     <p-tab value="0">Matches</p-tab>
-                    <p-tab value="1">Messages</p-tab>
+                    <p-tab value="1">Requests</p-tab>
                 </p-tablist>
                 <p-tabpanels>
                     <p-tabpanel value="0">
@@ -32,17 +32,34 @@
                                 Matches will appear here once you start to Like people. You can message them directly from here when you’re ready to spark up the conversation.
                             </p>
                         </div>
-                        <div class="center" *ngIf="matches && matches.length">
-                            Matches found
+                        <div class="left" *ngIf="matches && matches.length">
+                            <div class="match" *ngFor="let match of matches">
+                                <div class="profile">
+                                    <img class="user-profile-img" [src]="match.photoUrl">
+                                    <span class="user-name">{{match.firstName}} {{match.lastName}}</span>
+                                </div>
+                            </div>
                         </div>
                     </p-tabpanel>
                     <p-tabpanel value="1">
-                        <div class="center">
+                        <div class="center" *ngIf="requests && !requests.length">
                             <div><i class="pi pi-comments" style="font-size: 8rem; color: #fd267a;"></i></div>
                             <h2>Say Hello</h2>
                             <p class="m-0">
                                 Looking to strike up a conversation? When you match with others, you can send them a message under “Matches”.
                             </p>
+                        </div>
+                        <div class="left" *ngIf="requests && requests.length">
+                            <div class="match" *ngFor="let request of requests">
+                                <div class="profile">
+                                    <img class="user-profile-img" [src]="request.fromUserId.photoUrl">
+                                    <span class="user-name">{{request.fromUserId.firstName}} {{request.fromUserId.lastName}}</span>
+                                </div>
+                                <div class="options">
+                                    <i class="pi pi-check-circle check" (click)="requestAction(request, true)"></i>
+                                    <i class="pi pi-times-circle cross" (click)="requestAction(request, false)"></i>
+                                </div>
+                            </div>
                         </div>
                     </p-tabpanel>
                 </p-tabpanels>
