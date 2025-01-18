@@ -8,10 +8,11 @@ import { ChipModule } from 'primeng/chip';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-feed',
-  imports: [TabsModule, FormsModule, CommonModule, ChipModule, ButtonModule, DialogModule, InputTextModule],
+  imports: [TabsModule, FormsModule, CommonModule, ChipModule, ButtonModule, DialogModule, InputTextModule, TagModule  ],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
@@ -128,5 +129,14 @@ export class FeedComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+  }
+
+  dragStart(event) {
+    const location = document.getElementsByClassName('user-feed')[0].getBoundingClientRect()
+    if (location.x > event.screenX) {
+      console.log('left drag');
+    } else {
+      console.log('right drag');
+    }
   }
 }
