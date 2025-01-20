@@ -42,6 +42,13 @@
             </div>
         </div>
         <div class="field">
+            <label class="left">Photo Url </label>
+            <div class="right">
+                <input type="text" pInputText ngModel required name="photoUrl" />
+                <span class="error" *ngIf="registrationForm.controls['photoUrl'].touched && registrationForm.controls['photoUrl'].invalid">Invalid photoUrl</span>
+            </div>
+        </div>
+        <div class="field">
             <label class="left">Age </label>
             <div class="right">
                 <p-inputnumber ngModel inputId="minmax" mode="decimal" [min]="18" showButtons="true"  name="age"/>
@@ -53,6 +60,15 @@
             <div *ngFor="let gender of genders">
                 <p-radiobutton name="gender" [value]="gender.label" [(ngModel)]="selectedGender" [inputId]="gender.value" />
                 <label for="male">{{gender.label}}</label>
+            </div>
+        </div>
+        <div class="field">
+            <label class="left">Skills </label>
+            <div class="right">
+                <div class="show-chips">
+                    <p-chip *ngFor="let skill of skills" [label]="skill.name" [removable]="true" />
+                </div>
+                <input type="text" pInputText ngModel name="skills" ><p-button type="button" (onClick)="addSkill()">Add</p-button>
             </div>
         </div>
         <div class="field">

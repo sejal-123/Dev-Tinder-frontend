@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .feed-menu {
@@ -224,12 +225,24 @@
 .user-feed {
     height: 592px;
     width: 375px;
-    background-color: #fd267a;
-    position: relative;
+    position: absolute;
 }
 
+
+
 .feed-actions {
-    background-color: #111318;
+    /* background-color: #111318; */
+    /* --primary-color: grey; 
+    --secondary-color: black; 
+    --shadow-color: rgba(255, 255, 255, 0.5); 
+    --transition-duration: 0.3s; 
+
+    background-color: var(--primary-color); 
+    transition:  
+        background-color var(--transition-duration) ease-in-out; 
+    background-image:  
+        linear-gradient(to bottom, var(--primary-color),  
+                                    var(--secondary-color)); */                                    
     position: absolute;
     bottom: 0;
     height: 100px;
@@ -239,6 +252,15 @@
     align-items: center;
     justify-content: center;
 }
+
+@keyframes fadeToBlack {
+    0% {
+      background: transparent;
+    }
+    100% {
+      background: black;
+    }
+  }
 
 .feed-actions .pi {
     font-size: 2rem;
@@ -269,3 +291,46 @@
 .feed-action-btns.heart {
     color: #22c55e;
 }
+
+.user-image {
+    height: 375px;
+    width: 375px;
+    position: relative;
+}
+
+.user-pref {
+    position: absolute;
+    left: 0;
+    background: linear-gradient(to bottom, transparent, black);
+    background-image: fadeToBlack 3s infinite alternate;
+    position: absolute;
+    top: 392px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    justify-content: center;
+    gap: 20px;
+}
+
+.topline {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.bottomline {
+    margin: 0 20px;
+    display: flex;
+    gap: 4px;
+    z-index: 1;
+}
+
+h3 {
+    margin: 0 20px;
+}
+
+/* .p-tag-contrast {
+    background-color: var(--p-tag-contrast-color);
+    color: var(--p-tag-contrast-background);
+} */

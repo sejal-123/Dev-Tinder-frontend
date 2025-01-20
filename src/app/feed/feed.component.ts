@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsModule } from 'primeng/tabs';
@@ -28,7 +28,7 @@ export class FeedComponent implements OnInit {
   skills: any[] = [];
   
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private ref: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.http.get('http://localhost:7777/user/feed').subscribe(data => {
@@ -47,6 +47,11 @@ export class FeedComponent implements OnInit {
       console.log('Error', error);
       this.router.navigateByUrl('/')
     });
+    this.fetchRequests();
+    this.fetchMatches();  
+  }
+
+  fetchMatches() {
     this.http.get('http://localhost:7777/user/connections').subscribe(data => {
       this.matches = data['data'];
       console.log(this.matches);
@@ -55,6 +60,10 @@ export class FeedComponent implements OnInit {
       console.log('Error', error);
       this.router.navigateByUrl('/')
     });
+    this.ref.detectChanges();
+  }
+
+  fetchRequests() {
     this.http.get('http://localhost:7777/user/requests/received').subscribe(data => {
       this.requests = data['data'];
       console.log(this.requests);
@@ -63,7 +72,9 @@ export class FeedComponent implements OnInit {
       console.log('Error', error);
       this.router.navigateByUrl('/')
     });
-  }
+    this.ref.detectChanges();
+
+  }                     
 
   onToggleAccountDetails() {
     this.toggleAccountDetails = !this.toggleAccountDetails;
@@ -74,7 +85,7 @@ export class FeedComponent implements OnInit {
     this.http.patch('http://localhost:7777/profile/edit', {
       firstName: this.updateForm.value['firstName'],
       lastName: this.updateForm.value['lastName'],
-      skills: this.updateForm.value['skills'],
+      skills: this.updateForm.value['skills']?.map(ele => ele.name),
       photoUrl: this.updateForm.value['photoUrl']
     }).subscribe((data) => {
       if (data) {
@@ -107,6 +118,7 @@ export class FeedComponent implements OnInit {
 
   toggleAccountDetailsDialog() {
     this.accountDetailsDialog = !this.accountDetailsDialog;
+    this.updateForm.value['firstName']=this.activeUser.firstName;
   }
 
   onUpdateFormSubmit() {
@@ -125,18 +137,45 @@ export class FeedComponent implements OnInit {
     const url = 'http://localhost:7777/request/review/';
     const completeUrl = action ? `${url}accepted/${request._id}` : `${url}rejected/${request._id}`;
     this.http.post(completeUrl, {}).subscribe(data => {
+      this.fetchRequests();
+      this.fetchMatches();
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  dragStart(event, element) {
+    const div = document.getElementsByClassName(element)[0];
+    div.remove();
+    const location = document.getElementsByClassName('user-feed')[0]?.getBoundingClientRect();
+    const url = 'http://localhost:7777/request/send/';
+    let newReq = '';
+    if (location.x > event.screenX) {
+      newReq = `${url}ignored/${element}`;
+    } else {
+      newReq = `${url}interested/${element}`;
+    }
+    this.http.post(newReq, {}).subscribe(data => {
       console.log(data);
     }, error => {
       console.log(error);
     });
   }
 
-  dragStart(event) {
-    const location = document.getElementsByClassName('user-feed')[0].getBoundingClientRect()
-    if (location.x > event.screenX) {
-      console.log('left drag');
+  sendConnectionRequest(element, value) {
+    const div = document.getElementsByClassName(element)[0];
+    div.remove();
+    const url = 'http://localhost:7777/request/send/';
+    let newReq = '';
+    if (!value) {
+      newReq = `${url}ignored/${element}`;
     } else {
-      console.log('right drag');
+      newReq = `${url}interested/${element}`;
     }
+    this.http.post(newReq, {}).subscribe(data => {
+      console.log(data);
+    }, error => {
+      console.log(error);
+    });
   }
 }

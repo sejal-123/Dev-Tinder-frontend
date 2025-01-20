@@ -9,10 +9,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-home',
-  imports: [ButtonModule, CommonModule, DialogModule, NavbarComponent, FormsModule, InputTextModule, InputNumberModule, RadioButtonModule],
+  imports: [ButtonModule, CommonModule, DialogModule, NavbarComponent, FormsModule, InputTextModule, InputNumberModule, RadioButtonModule, ChipModule],
   providers: [HttpClientModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
   signUpDetailsDialog: boolean = false;
   loginDetailsDialog: boolean = false;
   error: string = '';
+  skills: any[] = [];
   genders: any[] = [
     { label: 'Male', value: 'male' },
     { label: 'Female', value: 'female' },
@@ -68,14 +70,17 @@ export class HomeComponent implements OnInit {
           emailId: this.signupForm.value['emailId'],
           password: this.signupForm.value['password'],
           age: this.signupForm.value['age'],
-          gender: this.signupForm.value['gender']
+          gender: this.signupForm.value['gender'],
+          photoUrl: this.signupForm.value['photoUrl'],
+          skills: this.signupForm.value['skills'].map(ele => ele.name),
         });
         ans.subscribe(data => {
           console.log(data);
           if(data['status'] === 400) {
             this.error = data['error'];
           } else {
-            alert('User added successfully!.. Please login now...')
+            alert('User added successfully!.. Please login now...');
+            this.toggleLoginDialog();
           }
         });
         console.log('Submitting form...', this.signupForm?.value);
@@ -112,6 +117,12 @@ export class HomeComponent implements OnInit {
       });
       console.log('Submitting login form...', this.loginForm?.value);
     }
+  }
+
+  async addSkill() {
+    this.skills.push({ label: this.signupForm.value['skills'], name: this.signupForm.value['skills'] });
+    this.signupForm.value['skills'] = this.skills;
+    console.log(this.skills, this.signupForm);
   }
 
 }

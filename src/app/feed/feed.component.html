@@ -68,16 +68,27 @@
         <div class="feed-preferences" *ngIf="toggleAccountDetails">
             <div class="account">
                 <p class="heading">ACCOUNT SETTINGS</p>
-                <div class="account-subsection" (click)="editAccountInformation()">Edit account information</div>
+                <div class="account-subsection" (click)="toggleAccountDetailsDialog()">Edit account information</div>
                 <div class="account-subsection" (click)="logout()">Logout</div>
             </div>
         </div>
     </div>
     <div class="right-feed">
-        <div class="user-feed" draggable="true" (dragend)="dragStart($event)">
+        <div class="user-feed" [ngClass]="user._id" draggable="true" (dragend)="dragStart($event, user._id)" *ngFor="let user of userFeeds">
+            <div class="user-image">
+                <img class="profile-img" style="height: 492px; width: 375px; background: no-repeat;" [src]="user.photoUrl">
+                <div class="user-pref">
+                    <div class="topline">
+                        <h3>{{user.firstName.toUpperCase()}}</h3><span>{{user.age}}</span>
+                    </div>
+                    <div class="bottomline">
+                        <p-tag  *ngFor="let skill of user.skills" [value]="skill" rounded="true" [severity]="'contrast'"></p-tag>
+                    </div>
+                </div>
+            </div>
             <div class="feed-actions">
-                <div class="feed-action-btns times"><i class="pi pi-times"></i></div>
-                <div class="feed-action-btns heart"><i class="pi pi-heart-fill"></i></div>
+                <div class="feed-action-btns times" (click)="sendConnectionRequest(user._id, false)"><i class="pi pi-times"></i></div>
+                <div class="feed-action-btns heart" (click)="sendConnectionRequest(user._id, true)"><i class="pi pi-heart-fill"></i></div>
             </div>
         </div>
     </div>
@@ -87,14 +98,14 @@
         <div class="field">
             <label class="left">Firstname </label>
             <div class="right">
-                <input type="text" pInputText ngModel name="firstName" required />
+                <input type="text" pInputText [(ngModel)]="activeUser.firstName" name="firstName" required />
                 <span class="error" *ngIf="updateForm.controls['firstName'].touched && updateForm.controls['firstName'].invalid">Invalid firstname</span>
             </div>
         </div>
         <div class="field">
             <label class="left">Lastname </label>
             <div class="right">
-                <input type="text" pInputText ngModel required name="lastName" />
+                <input type="text" pInputText [(ngModel)]="activeUser.lastName" required name="lastName" />
                 <span class="error" *ngIf="updateForm.controls['lastName'].touched && updateForm.controls['lastName'].invalid">Invalid lastname</span>
             </div>
         </div>
@@ -110,7 +121,7 @@
         <div class="field">
             <label class="left">Photo URL </label>
             <div class="right">
-                <input type="text" pInputText ngModel required name="photoUrl" />
+                <input type="text" pInputText required name="photoUrl" [(ngModel)]="activeUser.photoUrl" />
                 <span class="error" *ngIf="updateForm.controls['photoUrl'].touched && updateForm.controls['photoUrl'].invalid">Invalid photoUrl</span>
             </div>
         </div>
